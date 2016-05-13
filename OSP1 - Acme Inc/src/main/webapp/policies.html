@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Acme Inc Insurances</title>
+	<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular.min.js"	type="text/javascript"></script>
+	<script	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.8/angular-resource.js"	type="text/javascript"></script>
+	<script src="js/controller.js" type="text/javascript"></script>
+	
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+
+<body ng-app="acme-inc-ui">
+	
+		<br/>
+  			<h1>&nbsp; Acme Inc <small>insurances</small></h1>
+  		<br/>
+  		
+  		<ul class="nav nav-tabs">
+  			<li role="presentation"><a href="customers.html">Customers</a></li>
+  			<li role="presentation" class="active"><a href="policies.html">Policies</a></li>
+  			<li role="presentation"><a href="index.html">Logout</a></li>
+	 	</ul>
+		<br/>	
+	 
+	
+	<div ng-controller="GetPolicyData" class="container">
+	
+		<div class="well">
+		Policy Number&nbsp; <input type="text" ng-model="policyNum"> &nbsp; <br/><br/>
+		
+		<button type="button" class="btn btn-default" ng-click="getData()" aria-label="Left Align">
+  			<span class="glyphicon glyphicon-option-vertical glyphicon-align-left" aria-hidden="true"> Search</span>
+		</button>
+		</div>
+
+		<br/>
+		<table class="table" ng-show="showData">
+			
+			<tr>
+				<td>Policy Number</td>
+				<td ng-hide="editorEnabled">{{policydata.policyNumber}}</td>
+				<td ng-show="editorEnabled">
+					<input ng-model="policydata.policyNumber" ng-show="editorEnabled">
+				</td>
+			</tr>
+		
+			<tr>
+				<td>Role</td>
+				<td ng-hide="editorEnabled">{{policydata.role}}</td>
+				<td ng-show="editorEnabled">
+					<input ng-model="policydata.role" ng-show="editorEnabled">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>Last Premium Paid</td>
+				<td ng-hide="editorEnabled">{{policydata.lastPremiumPaid}}</td>
+				<td ng-show="editorEnabled">
+					<input ng-model="policydata.lastPremiumPaid" ng-show="editorEnabled">
+				</td>
+			</tr>
+			
+			<tr>
+				<td>Status</td>
+				<td ng-hide="editorEnabled">{{policydata.status}}</td>
+				<td ng-show="editorEnabled">
+					<input ng-model="policydata.status" ng-show="editorEnabled">
+				</td>
+			</tr>
+
+		</table>
+
+		<button ng-show="showEdit" type="button" class="btn btn-default" ng-click="enableEditor()" aria-label="Left Align">
+  			<span class="glyphicon glyphicon-wrench glyphicon-align-left" aria-hidden="true"> Edit</span>
+		</button>
+		
+		<button ng-show="editorEnabled" type="button" class="btn btn-default" ng-click="save()" aria-label="Left Align">
+  			<span class="glyphicon glyphicon-briefcase glyphicon-align-left" aria-hidden="true"> Save</span>
+		</button>
+
+	</div>
+
+</body>
+</html>
