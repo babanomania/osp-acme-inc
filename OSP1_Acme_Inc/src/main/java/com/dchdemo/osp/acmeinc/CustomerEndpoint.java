@@ -1,22 +1,20 @@
 package com.dchdemo.osp.acmeinc;
 
 import java.io.IOException;
-import java.util.Properties;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -25,43 +23,26 @@ import org.apache.http.util.EntityUtils;
 
 import com.dchdemo.osp.acmeinc.dbutil.Customer;
 import com.dchdemo.osp.acmeinc.dbutil.CustomersUtil;
-import com.dchdemo.osp.acmeinc.dbutil.Policy;
-import com.dchdemo.osp.acmeinc.dbutil.PolicyUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-@Path("api")
-public class MyResource {
+@Path("api/customer")
+public class CustomerEndpoint extends BaseEndpoint {
     
-	private static String OSP_CONFIG = "osp_config.properties";
-	private static Properties ospConfig = new Properties();
-	
-	private static String url_isb;
-	
-	static{
-		try
-		{
-			if(! StringUtils.isEmpty(System.getenv( "url_isb" )) ){
-				url_isb = System.getenv( "url_isb" );
-			}else{
-				ospConfig.load( MyResource.class.getClassLoader().getResourceAsStream( OSP_CONFIG ) );
-				url_isb = ospConfig.getProperty("url_isb");
-			}
-			
-		}catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
-	
     @GET
-    @Path("customer/{lastname}/{firstname}")
+    @Path("{lastname}/{firstname}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Customer getCustomerDetails(	@PathParam("lastname") String lastname, @PathParam("firstname") String firstname	){
-    	return CustomersUtil.getCustomerDetail(firstname, lastname);
+    public Customer getCustomerDetails(	@PathParam("lastname") String lastname, 
+    									@PathParam("firstname") String firstname	){
+    	
+    	Customer data = CustomersUtil.getCustomerDetail(firstname, lastname);
+    	if( data == null ){
+    		throw new NotFoundException("no such customer");
+    	}
+    	
+    	return data;
     }
     
     @POST
-    @Path("customer")
     @Consumes(MediaType.APPLICATION_JSON)
     public void editCustomerDetails( Customer editedCustomer ) throws Exception{
     	
@@ -69,7 +50,7 @@ public class MyResource {
     	saveToCrm( editedCustomer );
     }
     
-    public void saveToCrm( Customer editedCustomer ) throws Exception {
+    private void saveToCrm( Customer editedCustomer ) throws Exception {
     	
     	ObjectMapper mapper = new ObjectMapper();
     	String jsonCustomer = mapper.writeValueAsString(editedCustomer);
@@ -103,20 +84,6 @@ public class MyResource {
         String responseBody = httpclient.execute(httpput, responseHandler);
         System.out.println( "response after saving to crm : " + responseBody );
     	
-    }
-    
-    @GET
-    @Path("policy/{polNum}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Policy getPolicyDetails(	@PathParam("polNum") String polNum	){
-    	return PolicyUtil.getPolicyDetail(polNum);
-    }
-    
-    @POST
-    @Path("policy")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void editPolicyDetails( Policy editedPolicy	){
-    	PolicyUtil.savePolicyDetail(editedPolicy);
     }
     
 }
