@@ -11,33 +11,43 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body ng-app="acme-inc-ui">
 	
-		<br/>
-  			<h1>&nbsp; Acme Inc <small>insurances</small></h1>
-  		<br/>
-  		
-  		<ul class="nav nav-tabs">
-  			<li role="presentation" class="active"><a href="customers.html">Customers</a></li>
-  			<li role="presentation"><a href="policies.html">Policies</a></li>
+	<nav class="navbar navbar-default navbar-static-top">
+	  <div class="container">
+	    
+	    <ul class="nav navbar-nav">
+  			<li class="active"><a href="customers.html">Customers</a></li>
+  			<li><a href="policies.html">Policies</a></li>
   			<li><a href="/static/api-docs/index.html" target="_blank">API</a></li>
-  			<li role="presentation"><a href="index.html">Logout</a></li>
+  			<li><a href="index.html">Logout</a></li>
 	 	</ul>
-		<br/>	
-	 
+	    
+	  </div>
+	</nav>
+
+	<div class="jumbotron">
+	  <h1>Acme Inc <small>insurances</small></h1>
+	</div>		
+	<br/><br/>	
 	
 	<div ng-controller="GetCustomerData" class="container">
 	
-		<div class="well">
-		First Name &nbsp; <input type="text" ng-model="firstName"> &nbsp; <br/><br/>
-		Last Name &nbsp; <input type="text" ng-model="lastName"> &nbsp; <br/><br/>
+		<div class="panel panel-warning">
+		  <div class="panel-heading">Customer Search</div>
+		  <div class="panel-body">
 		
-		<button type="button" class="btn btn-default" ng-click="getData()" aria-label="Left Align">
-  			<span class="glyphicon glyphicon-equalizer glyphicon-align-left" aria-hidden="true"> Search</span>
-		</button>
+				First Name &nbsp; <input type="text" ng-model="firstName"> &nbsp; <br/><br/>
+				Last Name &nbsp; <input type="text" ng-model="lastName"> &nbsp; <br/><br/>
+				
+				<button type="button" class="btn btn-default" ng-click="getData()" aria-label="Left Align">
+		  			<span class="glyphicon glyphicon-equalizer glyphicon-align-left" aria-hidden="true"> Search</span>
+				</button>
 		
+		  </div>
 		</div>
 
 		<br/>
