@@ -14,13 +14,38 @@ app.controller("GetCustomerData", function($scope, $http, $resource) {
         };
 
         $scope.getData = function() {
+        	
+        	$scope.showEdit = false;
+        	$scope.showData = false;
+        	
             $scope.customerdata = CustomerEntity.get({
                 lastname: $scope.lastName,
                 firstname: $scope.firstName
+                
+            }, function() {
+            	$scope.showEdit = true;
+                $scope.showData = true;
+            	$scope.showError = false;
+            	
+            },function(response) {
+            	$scope.showEdit = false;
+            	$scope.showData = false;
+            	$scope.showError = true;
+            	
+            	if(response.status === 404) {
+            		$scope.errorMessage = "Customer Not Found"
+                }else{
+                	if( response.message == null ){
+                		$scope.errorMessage = "Server Error";
+                		
+                	}else{
+                		$scope.errorMessage = response.message;
+                	}
+                }
+            	
             });
             
-            $scope.showEdit = true;
-            $scope.showData = true;
+            
         };
 
         $scope.save = function() {
@@ -30,13 +55,15 @@ app.controller("GetCustomerData", function($scope, $http, $resource) {
 	                console.log(resp);
 	              },
 	              function(err){
-	                alert( "error occured while saving " );
+	            	  
+	            	$scope.showEdit = false;
+	              	$scope.showData = false;
+	              	$scope.showError = true;
+	              	
+	              	$scope.errorMessage = "error occured while saving ";
 	                console.log(err);
 	              }
             );
-            
-            $scope.editorEnabled = false;
-            $scope.showEdit = true;
 
         }
     }
@@ -58,12 +85,36 @@ app.controller("GetPolicyData", function($scope, $http, $resource) {
 
         $scope.getData = function() {
 
+        	$scope.showEdit = false;
+        	$scope.showData = false;
+        	
             $scope.policydata = PolicyEntity.get({
                 policynum: $scope.policyNum
+                
+            }, function() {
+            	$scope.showEdit = true;
+                $scope.showData = true;
+            	$scope.showError = false;
+            	
+            },function(response) {
+            	$scope.showEdit = false;
+            	$scope.showData = false;
+            	$scope.showError = true;
+            	
+            	if(response.status === 404) {
+            		$scope.errorMessage = "Policy Not Found"
+                }else{
+                	
+                	if( response.message == null ){
+                		$scope.errorMessage = "Server Error";
+                		
+                	}else{
+                		$scope.errorMessage = response.message;
+                	}
+                }
+            	
             });
             
-            $scope.showEdit = true;
-            $scope.showData = true;
         };
 
         $scope.save = function() {
@@ -73,13 +124,14 @@ app.controller("GetPolicyData", function($scope, $http, $resource) {
 	                console.log(resp);
 	              },
 	              function(err){
-	                alert( "error occured while saving " );
+	            	$scope.showEdit = false;
+					$scope.showData = false;
+					$scope.showError = true;
+					
+					$scope.errorMessage = "error occured while saving ";
 	                console.log(err);
 	              }
         	);
-        	
-            $scope.editorEnabled = false;
-            $scope.showEdit = true;
 
         }
 
