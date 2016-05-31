@@ -26,11 +26,13 @@ app.controller("GetCustomerData", function($scope, $http, $resource) {
             	$scope.showEdit = true;
                 $scope.showData = true;
             	$scope.showError = false;
+            	$scope.editorEnabled = false;
             	
             },function(response) {
             	$scope.showEdit = false;
             	$scope.showData = false;
             	$scope.showError = true;
+            	$scope.editorEnabled = false;
             	
             	if(response.status === 404) {
             		$scope.errorMessage = "Customer Not Found"
@@ -53,12 +55,19 @@ app.controller("GetCustomerData", function($scope, $http, $resource) {
 				  function(resp, headers){
 	                //success callback
 	                console.log(resp);
+	                
+	                $scope.showEdit = true;
+	                $scope.showData = true;
+	            	$scope.showError = false;
+	                $scope.editorEnabled = false;
+	            	
 	              },
 	              function(err){
 	            	  
-	            	$scope.showEdit = false;
+	            	$scope.showEdit = true;
 	              	$scope.showData = false;
 	              	$scope.showError = true;
+	              	$scope.editorEnabled = false;
 	              	
 	              	$scope.errorMessage = "error occured while saving ";
 	                console.log(err);
@@ -95,11 +104,13 @@ app.controller("GetPolicyData", function($scope, $http, $resource) {
             	$scope.showEdit = true;
                 $scope.showData = true;
             	$scope.showError = false;
+            	$scope.editorEnabled = false;
             	
             },function(response) {
             	$scope.showEdit = false;
             	$scope.showData = false;
             	$scope.showError = true;
+            	$scope.editorEnabled = false;
             	
             	if(response.status === 404) {
             		$scope.errorMessage = "Policy Not Found"
@@ -119,9 +130,15 @@ app.controller("GetPolicyData", function($scope, $http, $resource) {
 
         $scope.save = function() {
         	PolicyEntity.save($scope.policydata,
+        			
   				  function(resp, headers){
 	                //success callback
 	                console.log(resp);
+	                
+	                $scope.showEdit = false;
+	                $scope.showData = true;
+	            	$scope.showError = false;
+	            	
 	              },
 	              function(err){
 	            	$scope.showEdit = false;
